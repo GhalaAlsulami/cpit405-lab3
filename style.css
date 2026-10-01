@@ -1,0 +1,408 @@
+/* =========================================================
+   CPIT 405 – Lab 3: CV of Ghala Alsulami
+   Concept: "graph paper observatory" - the page is a sheet of
+   plotting paper, and the header ends in a bar chart that
+   grows when the page loads.
+   Each required CSS concept is labeled in a comment.
+   ========================================================= */
+
+/* Colors used across the page (custom properties) */
+:root {
+    --ink: #1b2340;        /* dark navy text and header */
+    --paper: #f3f6fa;      /* cool paper background */
+    --grid: #dde5ef;       /* graph paper lines */
+    --plot: #3157d5;       /* main plot blue */
+    --teal: #13a59b;       /* second data series */
+    --amber: #f0b13a;      /* highlight for key numbers */
+}
+
+/* ---------- ELEMENT SELECTORS ---------- */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;                                                  /* MARGIN */
+    font-family: "IBM Plex Sans", "Segoe UI", Arial, sans-serif; /* FONT STYLING */
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink);
+    /* BACKGROUND COLOR + graph paper grid made with two gradients */
+    background-color: var(--paper);
+    background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 28px 28px;
+}
+
+h1, h2, h3 {
+    font-family: "Bricolage Grotesque", "Segoe UI", sans-serif;
+    line-height: 1.15;
+}
+
+h2 {
+    display: inline-block;
+    font-size: 1.9rem;
+    font-weight: 800;
+    margin: 0 0 18px;
+    padding: 0 6px;                                             /* PADDING */
+    /* highlighter-marker effect behind the heading */
+    background: linear-gradient(transparent 58%, rgba(240, 177, 58, 0.55) 58%);
+}
+
+h3 {
+    font-size: 1.2rem;
+    margin: 18px 0 6px;
+}
+
+p {
+    margin: 0 0 10px;
+}
+
+a {
+    color: var(--plot);
+    font-weight: 500;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+/* HOVER EFFECT on all links */
+a:hover {
+    color: var(--teal);
+}
+
+a:focus-visible {
+    outline: 3px solid var(--amber);
+    outline-offset: 3px;
+}
+
+footer {
+    text-align: center;
+    padding: 24px;
+    color: #5b6684;
+    font-size: 0.9rem;
+}
+
+/* ---------- ID SELECTORS ---------- */
+#profile-header {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--ink);
+    color: white;
+    padding: 70px 24px 170px;      /* bottom space for the bar chart */
+    text-align: left;
+}
+
+/* The bar chart: 12 bars drawn with gradients on a pseudo-element */
+#profile-header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 130px;
+    background-image:
+        linear-gradient(var(--plot), var(--plot)),
+        linear-gradient(var(--teal), var(--teal)),
+        linear-gradient(var(--plot), var(--plot)),
+        linear-gradient(var(--teal), var(--teal)),
+        linear-gradient(var(--plot), var(--plot)),
+        linear-gradient(var(--amber), var(--amber)),
+        linear-gradient(var(--plot), var(--plot)),
+        linear-gradient(var(--teal), var(--teal)),
+        linear-gradient(var(--plot), var(--plot)),
+        linear-gradient(var(--teal), var(--teal)),
+        linear-gradient(var(--plot), var(--plot)),
+        linear-gradient(var(--teal), var(--teal));
+    background-repeat: no-repeat;
+    background-size:
+        6% 30%, 6% 45%, 6% 38%, 6% 60%, 6% 52%, 6% 100%,
+        6% 70%, 6% 58%, 6% 80%, 6% 66%, 6% 88%, 6% 75%;
+    background-position:
+        2% 100%, 10.7% 100%, 19.4% 100%, 28.1% 100%, 36.8% 100%, 45.5% 100%,
+        54.2% 100%, 62.9% 100%, 71.6% 100%, 80.3% 100%, 89% 100%, 97.7% 100%;
+    transform-origin: bottom;
+    animation: grow-bars 1.2s ease-out both;
+}
+
+@keyframes grow-bars {
+    from { transform: scaleY(0); }
+    to   { transform: scaleY(1); }
+}
+
+/* ---------- DESCENDANT SELECTORS ---------- */
+#profile-header h1 {
+    max-width: 900px;
+    margin: 0 auto;
+    font-size: clamp(2.8rem, 9vw, 5.5rem);
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 0.95;
+}
+
+#profile-header nav {
+    max-width: 900px;
+    margin: 28px auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 22px;
+}
+
+#profile-header nav a {
+    color: #c9d3ee;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;         /* BORDER */
+    padding-bottom: 2px;
+}
+
+/* HOVER EFFECT on the navigation */
+#profile-header nav a:hover {
+    color: white;
+    border-bottom-color: var(--amber);
+}
+
+.cv-section p {
+    max-width: 68ch;
+}
+
+/* ---------- CLASS SELECTORS ---------- */
+.job-title {
+    max-width: 900px;
+    margin: 14px auto 0;
+    font-size: 1.25rem;
+    color: var(--amber);
+}
+
+.cv-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+.cv-section {
+    margin-bottom: 56px;
+    scroll-margin-top: 20px;
+}
+
+/* Education and certifications: a vertical "axis" on the left */
+.education-item {
+    position: relative;
+    padding: 4px 0 4px 22px;
+    margin-bottom: 18px;
+    border-left: 3px solid var(--plot);
+}
+
+.education-item h3 {
+    margin-top: 0;
+}
+
+.education-item p {
+    margin: 2px 0;
+    color: #47526f;
+}
+
+.gpa {
+    float: right;
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-size: 1rem;
+    color: #47526f;
+    text-align: right;
+    line-height: 1;
+}
+
+.gpa strong {
+    display: block;
+    font-size: 3.2rem;
+    color: var(--teal);
+}
+
+/* Skills shown as plotted points */
+.skills-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skills-list li {
+    background-color: white;
+    border: 1.5px solid var(--ink);
+    padding: 5px 14px 5px 26px;
+    border-radius: 4px;
+    position: relative;
+    font-size: 0.95rem;
+}
+
+/* a small "data point" dot before each skill */
+.skills-list li::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    margin-top: -4px;
+    border-radius: 50%;
+    background-color: var(--teal);
+}
+
+.skills-list li:hover {
+    background-color: var(--ink);
+    color: white;
+}
+
+/* The project: one bold "figure" with an offset solid shadow */
+.project-card {
+    background-color: white;
+    border: 2px solid var(--ink);
+    padding: 28px;
+    box-shadow: 8px 8px 0 var(--plot);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* HOVER EFFECT: the card shifts toward its shadow */
+.project-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 11px 11px 0 var(--teal);
+}
+
+.project-card h3 {
+    font-size: 1.6rem;
+    margin: 0;
+}
+
+.project-card ul {
+    padding-left: 20px;
+}
+
+.project-card li {
+    margin-bottom: 6px;
+}
+
+.project-date {
+    color: #5b6684;
+}
+
+.stat {
+    float: right;
+    width: 170px;
+    margin: 0 0 12px 20px;
+    padding: 12px;
+    background-color: var(--amber);
+    font-size: 0.85rem;
+    line-height: 1.35;
+}
+
+.stat strong {
+    display: block;
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-size: 2.8rem;
+    line-height: 1;
+}
+
+.project-card .tech-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.project-card .tech-list li {
+    margin: 0;
+    padding: 2px 10px;
+    background-color: var(--paper);
+    color: var(--plot);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.project-card > a {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 10px 20px;
+    background-color: var(--ink);
+    color: white;
+    text-decoration: none;
+}
+
+.project-card > a:hover {
+    background-color: var(--plot);
+    color: white;
+}
+
+/* Activities: a simple list with the role in bold */
+.activity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.activity-list li {
+    padding: 12px 0;
+    border-bottom: 1px dashed #b7c3d6;
+}
+
+.activity-list strong {
+    display: block;
+}
+
+#contact p {
+    font-size: 1.1rem;
+}
+
+/* ---------- MEDIA QUERY (responsive design) ---------- */
+@media (max-width: 600px) {
+    body {
+        font-size: 16px;
+    }
+
+    #profile-header {
+        padding: 48px 20px 120px;
+    }
+
+    #profile-header::after {
+        height: 90px;
+    }
+
+    #profile-header nav {
+        gap: 4px 16px;
+    }
+
+    .gpa,
+    .stat {
+        float: none;
+        margin: 0 0 14px;
+        text-align: left;
+    }
+
+    .stat {
+        width: auto;
+    }
+
+    .project-card {
+        padding: 20px;
+        box-shadow: 5px 5px 0 var(--plot);
+    }
+
+    h2 {
+        font-size: 1.6rem;
+    }
+}
+
+/* Respect users who turn off animations */
+@media (prefers-reduced-motion: reduce) {
+    #profile-header::after {
+        animation: none;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}
